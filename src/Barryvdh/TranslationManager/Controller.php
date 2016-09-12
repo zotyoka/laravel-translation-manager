@@ -52,11 +52,15 @@ class Controller extends BaseController
     }
 
     protected function loadLocales()
-    {
-        //Set the default locale as the first one.
-        $locales = array_merge(array(Config::get('app.locale')), Translation::groupBy('locale')->lists('locale'));
+    {        
+        $locales   = Translation::groupBy('locale')->orderBy('locale', 'ASC')->lists('locale');
+        $locales   = array_reverse($locales);
+        $locales[] = 'nl';
+        $locales[] = 'en';
+        $locales   = array_reverse($locales);
         return array_unique($locales);
     }
+
 
     public function postAdd($group)
     {
